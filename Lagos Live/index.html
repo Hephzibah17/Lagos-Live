@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up & Log in | Lagos Live</title>
+    <link rel="icon" type="image/png" href="lagos live logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        :root {
+            --bg: #070d14;
+            --panel: rgba(13, 24, 36, .88);
+            --panel-2: #101923;
+            --input: #0b151f;
+            --border: #20303e;
+            --text: #f5f9fc;
+            --muted: #7e90a2;
+            --blue: #00bfff;
+            --blue-2: #0077ff;
+            --green: #20d99b;
+            --red: #ff6078;
+            --yellow: #ffc857;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: "Inter", sans-serif;
+        }
+
+        html, body {
+            min-height: 100%;
+        }
+
+        body {
+            min-height: 100vh;
+            color: var(--text);
+            background:
+                radial-gradient(circle at 12% 15%, rgba(0, 191, 255, .12), transparent 28%),
+                radial-gradient(circle at 88% 82%, rgba(32, 217, 155, .09), transparent 30%),
+                linear-gradient(135deg, #050a10 0%, #08111a 48%, #061019 100%);
+            overflow-x: hidden;
+            
+            background:
+            linear-gradient(rgba(5, 10, 16, 0.65), rgba(6, 16, 25, 0.75)),
+            url("lagos ikoyi.jpg") center / cover no-repeat fixed;
+
+        }
+
+        button, input, select {
+            font: inherit;
+        }
+
+        button {
+            border: 0;
+            cursor: pointer;
+        }
+
+        .page {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1.05fr .95fr;
+            position: relative;
+        }
+
+        .background-grid {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            opacity: .18;
+            background-image:
+                linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+            background-size: 48px 48px;
+            mask-image: linear-gradient(to bottom, black, transparent 92%);
+        }
+
+        .glow {
+            position: fixed;
+            width: 420px;
+            height: 420px;
+            border-radius: 50%;
+            filter: blur(90px);
+            pointer-events: none;
+        }
+
+        .glow.one {
+            left: -180px;
+            top: -160px;
+            background: rgba(0, 191, 255, .13);
+        }
+
+        .glow.two {
+            right: -190px;
+            bottom: -180px;
+            background: rgba(32, 217, 155, .11);
+        }
+
+        .left {
+            min-height: 100vh;
+            padding: 42px clamp(28px, 6vw, 90px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            z-index: 1;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+            width: fit-content;
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .brand img {
+            width: 180px;
+            max-width: 48vw;
+            height: auto;
+            max-height: 72px;
+            object-fit: contain;
+        }
+
+        .brand-fallback {
+            display: none;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-mark {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(135deg, var(--blue), var(--blue-2));
+            box-shadow: 0 0 30px rgba(0,191,255,.22);
+            font-weight: 800;
+        }
+
+        .brand-name {
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .hero {
+            max-width: 650px;
+            margin: auto 0;
+            padding: 70px 0;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border: 1px solid rgba(0,191,255,.18);
+            border-radius: 999px;
+            background: rgba(0,191,255,.06);
+            color: #7edfff;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            margin-bottom: 22px;
+        }
+
+        .eyebrow i {
+            font-size: 8px;
+            color: var(--green);
+        }
+
+        .hero h1 {
+            font-size: clamp(42px, 5.2vw, 72px);
+            line-height: .98;
+            letter-spacing: -.055em;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(120deg, #fff 5%, #7edfff 45%, var(--green) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero p {
+            max-width: 560px;
+            color: var(--muted);
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+            margin-top: 34px;
+            max-width: 570px;
+        }
+
+        .feature {
+            padding: 16px;
+            border: 1px solid rgba(255,255,255,.07);
+            border-radius: 16px;
+            background: rgba(255,255,255,.025);
+        }
+
+        .feature i {
+            color: var(--blue);
+            margin-bottom: 12px;
+        }
+
+        .feature h3 {
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .feature p {
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        .footer {
+            color: #536577;
+            font-size: 11px;
+        }
+
+        .right {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 35px clamp(22px, 5vw, 80px);
+            position: relative;
+            z-index: 2;
+        }
+
+        .auth-card {
+            width: min(100%, 480px);
+            padding: 34px;
+            border-radius: 28px;
+            background: var(--panel);
+            border: 1px solid rgba(255,255,255,.09);
+            box-shadow:
+                0 35px 90px rgba(0,0,0,.42),
+                inset 0 1px 0 rgba(255,255,255,.04);
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+        }
+
+        .card-header {
+            text-align: center;
+            margin-bottom: 26px;
+        }
+
+        .live-badge {
+            width: 50px;
+            height: 50px;
+            border-radius: 15px;
+            margin: 0 auto 16px;
+            display: grid;
+            place-items: center;
+            color: #061018;
+            background: linear-gradient(135deg, var(--blue), var(--green));
+            box-shadow: 0 12px 35px rgba(0,191,255,.17);
+        }
+
+        .card-header h2 {
+            font-size: 26px;
+            letter-spacing: -.03em;
+            margin-bottom: 8px;
+        }
+
+        .card-header p {
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .tabs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            padding: 5px;
+            gap: 5px;
+            background: #08111a;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            margin-bottom: 23px;
+        }
+
+        .tab {
+            padding: 11px;
+            color: var(--muted);
+            background: transparent;
+            border-radius: 11px;
+            font-size: 12px;
+            font-weight: 700;
+            transition: .2s ease;
+        }
+
+        .tab.active {
+            color: #fff;
+            background: #172532;
+            box-shadow: 0 5px 18px rgba(0,0,0,.2);
+        }
+
+        .form {
+            display: grid;
+            gap: 15px;
+        }
+
+        .field {
+            display: grid;
+            gap: 7px;
+        }
+
+        .field.hidden {
+            display: none;
+        }
+
+        label {
+            color: #a8b8c7;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .11em;
+            text-transform: uppercase;
+        }
+
+        .input-wrap {
+            height: 48px;
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 0 14px;
+            background: var(--input);
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            transition: .2s ease;
+        }
+
+        .input-wrap:focus-within {
+            border-color: rgba(0,191,255,.75);
+            box-shadow: 0 0 0 3px rgba(0,191,255,.09);
+        }
+
+        .input-wrap i {
+            color: #617486;
+            font-size: 13px;
+            width: 16px;
+            text-align: center;
+        }
+
+        input, select {
+            width: 100%;
+            border: 0;
+            outline: 0;
+            color: #f4f8fb;
+            background: transparent;
+            font-size: 13px;
+        }
+
+        input::placeholder {
+            color: #465a6c;
+        }
+
+        select option {
+            background: #0c1722;
+            color: white;
+        }
+
+        .eye {
+            width: 30px;
+            background: transparent;
+            color: #617486;
+        }
+
+        .error {
+            display: none;
+            color: var(--red);
+            font-size: 10px;
+        }
+
+        .error.show {
+            display: block;
+        }
+
+        .strength {
+            display: none;
+            gap: 7px;
+            margin-top: 1px;
+        }
+
+        .strength.show {
+            display: grid;
+        }
+
+        .strength-top {
+            display: flex;
+            justify-content: space-between;
+            color: #637789;
+            font-size: 10px;
+        }
+
+        .strength-track {
+            height: 4px;
+            background: #182631;
+            border-radius: 99px;
+            overflow: hidden;
+        }
+
+        .strength-bar {
+            height: 100%;
+            width: 0;
+            transition: .25s ease;
+        }
+
+        .forgot {
+            display: none;
+            text-align: right;
+        }
+
+        .forgot.show {
+            display: block;
+        }
+
+        .forgot button {
+            color: #64d9ff;
+            background: transparent;
+            font-size: 10px;
+        }
+
+        .submit {
+            height: 50px;
+            margin-top: 5px;
+            border-radius: 13px;
+            color: #031018;
+            background: linear-gradient(110deg, #00bfff, #19d6ba 55%, #20d99b);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: .06em;
+            box-shadow: 0 12px 28px rgba(0,191,255,.13);
+            transition: .2s ease;
+        }
+
+        .submit:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 16px 35px rgba(0,191,255,.2);
+        }
+
+        .submit:disabled {
+            opacity: .65;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .submit .spinner {
+            display: none;
+        }
+
+        .submit.loading .spinner {
+            display: inline-block;
+        }
+
+        .submit.loading .submit-text,
+        .submit.loading .submit-icon {
+            display: none;
+        }
+
+        .bottom {
+            text-align: center;
+            margin-top: 22px;
+            color: #687b8d;
+            font-size: 11px;
+        }
+
+        .bottom button {
+            color: #58d9ff;
+            background: transparent;
+            font-weight: 700;
+            margin-left: 4px;
+        }
+
+        .notice {
+            margin-top: 18px;
+            padding: 11px 13px;
+            border-radius: 12px;
+            border: 1px solid rgba(32,217,155,.12);
+            background: rgba(32,217,155,.045);
+            color: #79909f;
+            font-size: 9px;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        .toast {
+            position: fixed;
+            top: 22px;
+            right: 22px;
+            z-index: 100;
+            min-width: 280px;
+            max-width: calc(100vw - 44px);
+            padding: 14px;
+            border-radius: 15px;
+            background: #0d1823;
+            border: 1px solid rgba(255,255,255,.1);
+            box-shadow: 0 20px 50px rgba(0,0,0,.4);
+            display: flex;
+            gap: 11px;
+            transform: translateX(calc(100% + 40px));
+            transition: .3s ease;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 9px;
+            display: grid;
+            place-items: center;
+            background: rgba(0,191,255,.1);
+            color: var(--blue);
+            flex: 0 0 auto;
+        }
+
+        .toast h4 {
+            font-size: 11px;
+            margin-bottom: 3px;
+        }
+
+        .toast p {
+            color: #718596;
+            font-size: 10px;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 900px) {
+            .page {
+                grid-template-columns: 1fr;
+            }
+
+            .left {
+                min-height: auto;
+                padding: 28px 24px 0;
+            }
+
+            .hero {
+                padding: 65px 0 35px;
+            }
+
+            .hero h1 {
+                font-size: clamp(40px, 12vw, 62px);
+            }
+
+            .feature-list {
+                display: none;
+            }
+
+            .footer {
+                display: none;
+            }
+
+            .right {
+                min-height: auto;
+                padding: 10px 22px 40px;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .brand img {
+                width: 145px;
+            }
+
+            .auth-card {
+                padding: 25px 19px;
+                border-radius: 22px;
+            }
+
+            .hero {
+                padding-top: 45px;
+            }
+
+            .hero p {
+                font-size: 14px;
+            }
+
+            .toast {
+                left: 15px;
+                right: 15px;
+                min-width: 0;
+                max-width: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background-grid"></div>
+    <div class="glow one"></div>
+    <div class="glow two"></div>
+    
+    <div class="page">
+
+        <!-- LEFT: LAGOS LIVE BRANDING -->
+        <section class="left">
+            <a class="brand" href="#" aria-label="Lagos Live Home">
+                <img src="lagos live logo.png" alt="Lagos Live logo"
+                     onerror="this.style.display='none'; document.querySelector('.brand-fallback').style.display='flex';">
+                <span class="brand-fallback">
+                    <span class="brand-mark">L</span>
+                    <span class="brand-name">LAGOS LIVE</span>
+                </span>
+            </a>
+
+            <div class="hero">
+                <div class="eyebrow">
+                    <i class="fa-solid fa-circle"></i>
+                    Your Lagos. In real time.
+                </div>
+
+                <h1>
+                    Experience <span>Lagos</span><br>
+                    differently.
+                </h1>
+
+                <p>
+                    Create your Lagos Live account and keep your city experience
+                    in one place. Discover what is happening, check weather and
+                    traffic, explore places, follow transport updates and stay
+                    connected to Lagos.
+                </p>
+
+                <div class="feature-list">
+                    <div class="feature">
+                        <i class="fa-solid fa-cloud-sun"></i>
+                        <h3>Live Weather</h3>
+                        <p>Stay updated with Lagos weather conditions.</p>
+                    </div>
+
+                    <div class="feature">
+                        <i class="fa-solid fa-road"></i>
+                        <h3>Traffic & Transport</h3>
+                        <p>Keep an eye on movement across the city.</p>
+                    </div>
+
+                    <div class="feature">
+                        <i class="fa-solid fa-calendar-days"></i>
+                        <h3>Lagos Events</h3>
+                        <p>Discover events and things happening around you.</p>
+                    </div>
+
+                    <div class="feature">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <h3>Explore Places</h3>
+                        <p>Save and discover places across Lagos.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer">
+                © 2026 Lagos Live · Built for Lagos.
+                © Oreo's World
+            </div>
+        </section>
+
+        <!-- RIGHT: AUTHENTICATION -->
+        <section class="right">
+            <div class="auth-card">
+
+                <div class="card-header">
+                    <div class="live-badge">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <h2 id="form-title">Create your account</h2>
+                    <p id="form-subtitle">
+                        Join Lagos Live and make your Lagos experience smarter.
+                    </p>
+                </div>
+
+                <div class="tabs">
+                    <button id="tab-signup" class="tab active" type="button" onclick="switchMode('signup')">
+                        Sign Up
+                    </button>
+                    <button id="tab-login" class="tab" type="button" onclick="switchMode('login')">
+                        Log In
+                    </button>
+                </div>
+
+                <form class="form" id="auth-form" onsubmit="handleSubmit(event)">
+
+                    <div class="field" id="field-name">
+                        <label for="fullname">Full Name</label>
+                        <div class="input-wrap">
+                            <i class="fa-regular fa-user"></i>
+                            <input id="fullname" type="text" placeholder="Your full name" autocomplete="name">
+                        </div>
+                        <div class="error" id="name-error">
+                            <i class="fa-solid fa-circle-exclamation"></i>
+                            Please enter your full name.
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label for="email">Email Address</label>
+                        <div class="input-wrap">
+                            <i class="fa-regular fa-envelope"></i>
+                            <input id="email" type="email" placeholder="you@example.com" required autocomplete="email">
+                        </div>
+                        <div class="error" id="email-error">
+                            <i class="fa-solid fa-circle-exclamation"></i>
+                            Please enter a valid email address.
+                        </div>
+                    </div>
+
+                    <div class="field" id="field-interest">
+                        <label for="interest">What interests you?</label>
+                        <div class="input-wrap">
+                            <i class="fa-solid fa-compass"></i>
+                            <select id="interest">
+                                <option value="exploring">Exploring Lagos</option>
+                                <option value="events">Events & Activities</option>
+                                <option value="transport">Transport & Traffic</option>
+                                <option value="weather">Weather Updates</option>
+                                <option value="places">Places & Saved Locations</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label for="password">Password</label>
+                        <div class="input-wrap">
+                            <i class="fa-solid fa-lock"></i>
+                            <input id="password" type="password" placeholder="Create a password"
+                                   required autocomplete="new-password" oninput="checkStrength()">
+                            <button class="eye" type="button" onclick="togglePassword('password', 'eye-one')" aria-label="Show password">
+                                <i id="eye-one" class="fa-regular fa-eye"></i>
+                            </button>
+                        </div>
+
+                        <div class="strength" id="strength">
+                            <div class="strength-top">
+                                <span>Password strength</span>
+                                <span id="strength-text">Too short</span>
+                            </div>
+                            <div class="strength-track">
+                                <div class="strength-bar" id="strength-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field" id="field-confirm">
+                        <label for="confirm-password">Confirm Password</label>
+                        <div class="input-wrap">
+                            <i class="fa-solid fa-shield-halved"></i>
+                            <input id="confirm-password" type="password" placeholder="Confirm your password"
+                                   autocomplete="new-password">
+                            <button class="eye" type="button" onclick="togglePassword('confirm-password', 'eye-two')" aria-label="Show password">
+                                <i id="eye-two" class="fa-regular fa-eye"></i>
+                            </button>
+                        </div>
+                        <div class="error" id="confirm-error">
+                            <i class="fa-solid fa-circle-exclamation"></i>
+                            Passwords do not match.
+                        </div>
+                    </div>
+
+                    <div class="forgot" id="forgot">
+                        <button type="button" onclick="showToast('Password Reset', 'Password reset is not connected to a server yet.')">
+                            Forgot password?
+                        </button>
+                    </div>
+
+                    <button class="submit" id="submit-btn" type="submit">
+                        <span class="submit-text" id="submit-text">CREATE LAGOS LIVE ACCOUNT</span>
+                        <span class="submit-icon"><i class="fa-solid fa-arrow-right"></i></span>
+                        <i class="fa-solid fa-spinner fa-spin spinner"></i>
+                    </button>
+                </form>
+
+                <div class="bottom" id="bottom-text">
+                    Already have a Lagos Live account?
+                    <button type="button" onclick="switchMode('login')">Log In</button>
+                </div>
+
+                <div class="notice">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    Your account is stored locally in this browser for this
+                    frontend version. Connect a backend later for real accounts.
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="toast" id="toast">
+        <div class="toast-icon"><i class="fa-solid fa-check"></i></div>
+        <div>
+            <h4 id="toast-title">Success</h4>
+            <p id="toast-message">Welcome to Lagos Live.</p>
+        </div>
+    </div>
+
+    <script>
+        let currentMode = "signup";
+
+        const STORAGE_KEY = "lagosLiveAccounts";
+        const USER_KEY = "lagosLiveUser";
+
+        function switchMode(mode) {
+            currentMode = mode;
+
+            const signup = mode === "signup";
+
+            document.getElementById("field-name").classList.toggle("hidden", !signup);
+            document.getElementById("field-interest").classList.toggle("hidden", !signup);
+            document.getElementById("field-confirm").classList.toggle("hidden", !signup);
+            document.getElementById("forgot").classList.toggle("show", !signup);
+            document.getElementById("strength").classList.toggle("show", !signup && false);
+
+            document.getElementById("tab-signup").classList.toggle("active", signup);
+            document.getElementById("tab-login").classList.toggle("active", !signup);
+
+            document.getElementById("form-title").textContent =
+                signup ? "Create your account" : "Welcome back";
+
+            document.getElementById("form-subtitle").textContent =
+                signup
+                    ? "Join Lagos Live and make your Lagos experience smarter."
+                    : "Log in to continue to your Lagos Live dashboard.";
+
+            document.getElementById("submit-text").textContent =
+                signup ? "CREATE LAGOS LIVE ACCOUNT" : "LOG IN TO LAGOS LIVE";
+
+            document.getElementById("bottom-text").innerHTML = signup
+                ? 'Already have a Lagos Live account? <button type="button" onclick="switchMode(\'login\')">Log In</button>'
+                : 'New to Lagos Live? <button type="button" onclick="switchMode(\'signup\')">Create Account</button>';
+
+            clearErrors();
+            document.getElementById("password").value = "";
+            document.getElementById("confirm-password").value = "";
+            document.getElementById("strength").classList.remove("show");
+        }
+
+        function togglePassword(inputId, iconId) {
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(iconId);
+
+            if (input.type === "password") {
+                input.type = "text";
+                icon.className = "fa-regular fa-eye-slash";
+            } else {
+                input.type = "password";
+                icon.className = "fa-regular fa-eye";
+            }
+        }
+
+        function checkStrength() {
+            if (currentMode !== "signup") return;
+
+            const password = document.getElementById("password").value;
+            const strength = document.getElementById("strength");
+            const bar = document.getElementById("strength-bar");
+            const text = document.getElementById("strength-text");
+
+            if (!password) {
+                strength.classList.remove("show");
+                return;
+            }
+
+            strength.classList.add("show");
+
+            let score = 0;
+            if (password.length >= 8) score++;
+            if (/[a-z]/.test(password) && /[A-Z]/.test(password)) score++;
+            if (/\d/.test(password)) score++;
+            if (/[^a-zA-Z0-9]/.test(password)) score++;
+
+            const levels = [
+                { width: "25%", label: "Weak", color: "#ff6078" },
+                { width: "50%", label: "Medium", color: "#ffc857" },
+                { width: "75%", label: "Good", color: "#00bfff" },
+                { width: "100%", label: "Strong", color: "#20d99b" }
+            ];
+
+            const level = levels[Math.max(0, score - 1)] || levels[0];
+            bar.style.width = level.width;
+            bar.style.background = level.color;
+            text.textContent = level.label;
+            text.style.color = level.color;
+        }
+
+        function clearErrors() {
+            document.querySelectorAll(".error").forEach(el => el.classList.remove("show"));
+        }
+
+        function getAccounts() {
+            try {
+                return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+            } catch {
+                return {};
+            }
+        }
+
+        function saveAccounts(accounts) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(accounts));
+        }
+
+        function handleSubmit(event) {
+            event.preventDefault();
+            clearErrors();
+
+            const name = document.getElementById("fullname").value.trim();
+            const email = document.getElementById("email").value.trim().toLowerCase();
+            const password = document.getElementById("password").value;
+            const confirm = document.getElementById("confirm-password").value;
+
+            let valid = true;
+
+            if (currentMode === "signup") {
+                if (!name) {
+                    document.getElementById("name-error").classList.add("show");
+                    valid = false;
+                }
+
+                if (password !== confirm) {
+                    document.getElementById("confirm-error").classList.add("show");
+                    valid = false;
+                }
+            }
+
+            if (!email || !email.includes("@")) {
+                document.getElementById("email-error").classList.add("show");
+                valid = false;
+            }
+
+            if (!valid) return;
+
+            const accounts = getAccounts();
+            const button = document.getElementById("submit-btn");
+            button.classList.add("loading");
+            button.disabled = true;
+
+            setTimeout(() => {
+                if (currentMode === "signup") {
+                    if (accounts[email]) {
+                        button.classList.remove("loading");
+                        button.disabled = false;
+                        showToast("Account already exists", "That email is already registered. Try logging in.", "warning");
+                        return;
+                    }
+
+                    const user = {
+                        id: "lagos-live-" + Date.now(),
+                        name,
+                        email,
+                        interest: document.getElementById("interest").value,
+                        password,
+                        createdAt: new Date().toISOString()
+                    };
+
+                    accounts[email] = user;
+                    saveAccounts(accounts);
+                    localStorage.setItem(USER_KEY, JSON.stringify(user));
+
+                    showToast("Welcome to Lagos Live", `Great to have you, ${name}. Opening your dashboard...`);
+
+                    setTimeout(() => {
+                        window.location.href = "dashboard.html";
+                    }, 900);
+
+                } else {
+                    const user = accounts[email];
+
+                    if (!user || user.password !== password) {
+                        button.classList.remove("loading");
+                        button.disabled = false;
+                        showToast("Login failed", "The email or password is incorrect.", "error");
+                        return;
+                    }
+
+                    localStorage.setItem(USER_KEY, JSON.stringify(user));
+
+                    showToast("Welcome back", "Opening your Lagos Live dashboard...");
+
+                    setTimeout(() => {
+                        window.location.href = "dashboard.html";
+                    }, 900);
+                }
+            }, 650);
+        }
+
+        function showToast(title, message, type = "success") {
+            const toast = document.getElementById("toast");
+            const icon = toast.querySelector(".toast-icon i");
+
+            document.getElementById("toast-title").textContent = title;
+            document.getElementById("toast-message").textContent = message;
+
+            if (type === "error") {
+                icon.className = "fa-solid fa-circle-exclamation";
+                toast.querySelector(".toast-icon").style.color = "var(--red)";
+                toast.querySelector(".toast-icon").style.background = "rgba(255,96,120,.1)";
+            } else if (type === "warning") {
+                icon.className = "fa-solid fa-triangle-exclamation";
+                toast.querySelector(".toast-icon").style.color = "var(--yellow)";
+                toast.querySelector(".toast-icon").style.background = "rgba(255,200,87,.1)";
+            } else {
+                icon.className = "fa-solid fa-check";
+                toast.querySelector(".toast-icon").style.color = "var(--green)";
+                toast.querySelector(".toast-icon").style.background = "rgba(32,217,155,.1)";
+            }
+
+            toast.classList.add("show");
+
+            clearTimeout(window.toastTimer);
+            window.toastTimer = setTimeout(() => {
+                toast.classList.remove("show");
+            }, 3800);
+        }
+
+        document.querySelector(".brand").addEventListener("click", function(event) {
+            if (event.target.closest("img")) return;
+        });
+
+        // Start in sign-up mode.
+        switchMode("signup");
+    </script>
+</body>
+</html>
