@@ -1,0 +1,1111 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Lagos Live | Transport</title>
+    <link rel="icon" href="lagos live logo.png">
+    <style>
+        :root {
+             --bg: #070d14;
+            --sidebar: #0b121b;
+            --card: #101923;
+            --card-hover: #14222f;
+            --border: #1d2b38;
+
+            --text: #ffffff;
+            --muted: #718092;
+
+            --blue: #00bfff;
+            --blue-dark: #0077ff;
+
+            --green: #20d99b;
+            --yellow: #ffc857;
+            --red: #ff6078;
+
+            --shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            font: 16px/1.5 Arial, Helvetica, sans-serif;
+            min-height: 100vh
+        }
+
+        body.light-theme {
+            --bg: #f2f7fb;
+            --sidebar: #fff;
+            --card: #fff;
+            --text: #102a43;
+            --muted: #65788a;
+            --border: #dce6ee;
+            --shadow: 0 10px 30px #14325014
+        }
+
+        body.high-contrast {
+            --text: #fff;
+            --muted: #e8edf2;
+            --border: #8798a8
+        }
+
+        body.light-theme.high-contrast {
+            --text: #071827;
+            --muted: #263c4e;
+            --border: #526779
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none
+        }
+
+        /* =========================================================
+           LIGHT THEME
+           ========================================================= */
+
+        body.light-theme {
+            --bg: #f4f8fb;
+            --sidebar: #ffffff;
+            --card: #ffffff;
+            --card-hover: #f1f7fb;
+            --border: #dce6ee;
+
+            --text: #102a43;
+            --muted: #65788a;
+
+            --shadow: 0 10px 30px rgba(20, 50, 80, 0.08);
+        }
+
+        body.light-theme .sidebar {
+            border-right: 1px solid var(--border);
+            box-shadow: 4px 0 20px rgba(249, 248, 248, 0.03);
+            background-color: #ffffff;
+        }
+
+        body.light-theme .nav-item:hover {
+            background: #eef7fc;
+        }
+
+        body.light-theme .nav-item.active {
+            background: rgba(0, 191, 255, 0.12);
+        }
+
+        body.light-theme .search-box {
+            background: #ffffff;
+            border-color: var(--border);
+        }
+
+        body.light-theme .notification-btn {
+            background: #ffffff;
+            border-color: var(--border);
+        }
+
+        body.light-theme .profile-btn {
+            background: #184a78;
+            border-color: var(--border);
+        }
+
+        body.light-theme .weather-card {
+            box-shadow: var(--shadow);
+        }
+
+        body.light-theme .stat-card,
+        body.light-theme .event-card,
+        body.light-theme .quick-card {
+            box-shadow: var(--shadow);
+        }
+
+        body.light-theme .weather-card {
+            background:
+                radial-gradient(circle at 80% 20%,
+                    rgba(0, 191, 255, 0.18),
+                    transparent 35%),
+                linear-gradient(135deg,
+                    #ffffff,
+                    #edf8fc);
+            border-color: #cfe5ef;
+        }
+
+        body.light-theme .event-image {
+            background: #e9f3f8;
+        }
+
+        body.light-theme .status-icon {
+            background: #f2f8fb;
+        }
+
+        /* =========================================================
+           ACCESSIBILITY SETTINGS
+           ========================================================= */
+
+        body.large-text {
+            font-size: 17px;
+        }
+
+        body.large-text .sidebar {
+            font-size: 1.02em;
+        }
+
+        body.large-text h1 {
+            font-size: 2.1rem;
+        }
+
+        body.compact .main-content {
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+
+        body.compact .dashboard-grid {
+            gap: 14px;
+        }
+
+        body.compact .stats-grid {
+            gap: 12px;
+        }
+
+        body.compact .events-grid {
+            gap: 14px;
+        }
+
+        body.high-contrast {
+            --border: #5c7285;
+        }
+
+        body.high-contrast .nav-item.active {
+            outline: 2px solid var(--blue);
+        }
+
+        body.high-contrast .card,
+        body.high-contrast .stat-card,
+        body.high-contrast .event-card,
+        body.high-contrast .quick-card {
+            border-width: 2px;
+        }
+
+        body.reduce-motion *,
+        body.reduce-motion *::before,
+        body.reduce-motion *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+            scroll-behavior: auto !important;
+        }
+
+
+        /*======LAYOUT======*/
+
+        .layout {
+            min-height: 100vh
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+
+            width: 245px;
+
+            display: flex;
+            flex-direction: column;
+
+            background: var(--sidebar);
+            border-right: 1px solid var(--border);
+
+            padding: 22px 15px;
+
+            z-index: 1000;
+
+            transition:
+                background-color 0.25s ease,
+                border-color 0.25s ease,
+                transform 0.25s ease;
+        }
+
+        .sidebar {
+
+            position: fixed;
+
+            left: 0;
+
+            top: 0;
+
+            width: 245px;
+
+            height: 100vh;
+
+            background: #0b131d;
+
+            border-right: 1px solid #1b2936;
+
+            padding: 25px 17px;
+
+            z-index: 1000;
+
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            height: 76px;
+
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            width: 185px;
+            max-width: 100%;
+            max-height: 68px;
+
+            object-fit: contain;
+            display: block;
+        }
+
+        .nav-section-title {
+            padding: 0 12px;
+            margin: 8px 0 10px;
+
+            color: var(--muted);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .nav-title {
+
+            font-size: 11px;
+
+            color: #647384;
+
+            margin: 15px 15px 10px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1px;
+        }
+
+        .nav {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .nav-item {
+            position: relative;
+
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            width: 100%;
+            min-height: 46px;
+
+            padding: 0 13px;
+
+            border-radius: 11px;
+
+            color: var(--muted);
+
+            font-size: 14px;
+            font-weight: 600;
+
+            transition:
+                background 0.2s ease,
+                color 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .nav-item:hover {
+            color: var(--text);
+            background: var(--card-hover);
+            transform: translateX(2px);
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-item.active {
+            color: var(--blue);
+            background: rgba(0, 191, 255, 0.09);
+        }
+
+        .nav-item.active::before {
+            content: "";
+
+            position: absolute;
+            left: -15px;
+            top: 8px;
+            bottom: 8px;
+
+            width: 3px;
+
+            background: var(--blue);
+            border-radius: 0 4px 4px 0;
+
+            box-shadow: 0 0 12px rgba(0, 191, 255, 0.6);
+        }
+
+        .nav-icon {
+            width: 20px;
+            text-align: center;
+            font-size: 17px;
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+        }
+
+        .sidebar-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            padding: 12px;
+
+            margin-top: 15px;
+
+            border-top: 1px solid var(--border);
+        }
+
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background:
+                linear-gradient(135deg,
+                    var(--blue),
+                    var(--blue-dark));
+
+            color: white;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .user-info {
+            min-width: 0;
+        }
+
+        .user-name {
+            font-size: 13px;
+            font-weight: 700;
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .user-status {
+            margin-top: 2px;
+
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+
+
+        main {
+            margin-left: 230px;
+            padding: 28px clamp(18px, 4vw, 52px);
+            max-width: 1400px
+        }
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 28px
+        }
+
+        .clock {
+            padding: 10px 14px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            text-align: right
+        }
+
+        .clock small {
+            display: block;
+            color: var(--muted)
+        }
+
+        h1 {
+            font-size: clamp(26px, 3vw, 36px);
+            margin: 0 0 8px
+        }
+
+        h2 {
+            font-size: 20px;
+            margin: 0 0 10px
+        }
+
+        p {
+            color: var(--muted)
+        }
+
+        .sub {
+            margin: 0 0 24px
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+            gap: 16px
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            min-width: 0
+        }
+
+        .card p {
+            margin: 6px 0 0
+        }
+
+        .btn,
+        button,
+        input,
+        select {
+            font: inherit
+        }
+
+        .btn,
+        button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border);
+            background: var(--card);
+            color: var(--text);
+            border-radius: 10px;
+            padding: 10px 13px;
+            cursor: pointer
+        }
+
+        .btn.primary,
+        button.primary {
+            background: var(--accent);
+            color: #04202b;
+            border-color: transparent;
+            font-weight: 700
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center
+        }
+
+        .field {
+            width: 100%;
+            padding: 11px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--text)
+        }
+
+        .muted {
+            color: var(--muted)
+        }
+
+        .notice {
+            border-left: 4px solid #f2b544;
+            padding: 12px 14px;
+            background: var(--card);
+            border-radius: 8px;
+            color: var(--muted)
+        }
+
+        .large-text {
+            font-size: 18px
+        }
+
+        .compact .card {
+            padding: 14px
+        }
+
+        .reduce-motion * {
+            animation: none !important;
+            transition: none !important
+        }
+
+        @media(max-width:760px) {
+            .sidebar {
+                position: static;
+                width: auto;
+                height: auto;
+                padding: 12px
+            }
+
+            .logo {
+                margin: 0 auto 10px;
+                max-height: 48px
+            }
+
+            .nav {
+                display: flex;
+                overflow-x: auto
+            }
+
+            .nav a {
+                white-space: nowrap;
+                padding: 8px 10px
+            }
+
+            main {
+                margin: 0;
+                padding: 20px 14px
+            }
+
+            .top {
+                align-items: flex-start;
+                flex-direction: column
+            }
+
+            .clock {
+                text-align: left
+            }
+        }
+
+
+        /* Added transport tools — scoped to these new sections so the existing layout stays intact */
+        .transport-extra { margin-top: 22px; }
+        .transport-extra .section-heading { display:flex; align-items:flex-end; justify-content:space-between; gap:12px; margin-bottom:14px; }
+        .transport-extra .section-heading p { margin:0; }
+        .transport-extra .tool-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr)); gap:16px; }
+        .transport-extra .tool-card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:20px; box-shadow:var(--shadow); min-width:0; }
+        .transport-extra .tool-card h2 { margin-bottom:6px; }
+        .transport-extra .tool-card > p { margin:6px 0 14px; }
+        .transport-extra .form-stack { display:grid; gap:10px; margin-top:14px; }
+        .transport-extra .form-stack label { color:var(--muted); font-size:13px; font-weight:700; display:grid; gap:6px; }
+        .transport-extra .field { min-width:0; }
+        .transport-extra .result-panel { margin-top:12px; border:1px solid var(--border); background:var(--bg); border-radius:12px; padding:12px; color:var(--text); }
+        .transport-extra .result-panel p { margin:5px 0; }
+        .transport-extra .transport-list { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr)); gap:12px; }
+        .transport-extra .transport-option { border:1px solid var(--border); border-radius:12px; padding:14px; background:var(--bg); }
+        .transport-extra .transport-option strong { display:block; margin-bottom:4px; }
+        .transport-extra .transport-option p { font-size:13px; margin:0 0 10px; }
+        .transport-extra .tag { display:inline-flex; border:1px solid var(--border); border-radius:999px; padding:3px 8px; font-size:11px; color:var(--muted); }
+        .transport-extra .saved-route { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:11px 0; border-bottom:1px solid var(--border); }
+        .transport-extra .saved-route:last-child { border-bottom:0; }
+        .transport-extra .saved-route span { min-width:0; overflow-wrap:anywhere; }
+        .transport-extra .small-btn { padding:7px 10px; font-size:12px; }
+        .transport-extra .status-note { font-size:12px; color:var(--muted); margin-top:10px; }
+        .transport-extra .alert-item { border-left:3px solid var(--yellow); padding:9px 12px; background:var(--bg); border-radius:7px; margin-top:9px; }
+        .transport-extra .alert-item p { margin:3px 0 0; font-size:13px; }
+        @media(max-width:760px) { .transport-extra .section-heading { align-items:flex-start; flex-direction:column; } .transport-extra .saved-route { align-items:flex-start; flex-direction:column; } }
+
+    </style>
+
+</head>
+
+<body>
+    <aside class="sidebar" id="sidebar">
+
+            <div class="logo-container">
+
+
+                <a href="dashboard.html">
+
+                    <img src="lagos live logo.png" alt="Lagos Live" class="logo">
+
+                </a>
+
+            </div>
+
+
+            <nav>
+                <div class="nav-title">Main</div>
+                <a href="dashboard.html" class="nav-item">
+                    <span class="nav-icon">▦</span>
+                    Dashboard
+                </a>
+
+                <a href="explore.html" class="nav-item">
+                    <span class="nav-icon">🗺️</span>
+                    Explore
+                </a>
+
+                <a href="events.html" class="nav-item">
+                    <span class="nav-icon">🎉</span>
+                    Events
+                </a>
+
+                <a href="transport.html" class="nav-item active">
+                    <span class="nav-icon">🚦</span>
+                    Transport
+                </a>
+
+                <a href="weather.html" class="nav-item">
+                    <span class="nav-icon">☁️</span>
+                    Weather
+                </a>
+
+
+                <div class="nav-title">Services</div>
+
+
+                <a href="emergency.html" class="nav-item">
+                    <span class="nav-icon">🚨</span>
+                    Emergency
+                </a>
+
+                <a href="saved.html" class="nav-item">
+                    <span class="nav-icon">❤️</span>
+                    Saved Places
+                </a>
+
+                <a href="settings.html" class="nav-item">
+                    <span class="nav-icon">⚙️</span>
+                    Settings
+                </a>
+
+            </nav>
+
+
+            <div class="sidebar-bottom">
+                <a href="index.html">
+
+                    <button class="nav-item logout-btn" id="logoutBtn">
+
+                        <span class="nav-icon">
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                        </span>
+
+                        Log Out
+
+                    </button>
+                </a>
+            </div>
+
+
+
+    </aside>
+
+    <main>
+        <header class="top">
+
+            <div>
+                <h1>Transport</h1>
+
+                <p class="sub">Traffic, route planning and transport links across Lagos.</p>
+
+            </div>
+
+            <div class="clock">
+                <strong id="greeting">Good day 👋</strong>
+
+                <span id="clock">Loading Lagos time…</span>
+
+                <small>Africa/Lagos · WAT</small>
+
+            </div>
+
+        </header>
+
+        <div class="grid">
+            <section class="card">
+                <h2>🚦 Traffic and road conditions</h2>
+                <p>Open current traffic conditions in Google Maps. Traffic availability
+                    depends on your device, network and map coverage.</p>
+                <p style="margin-top:16px">
+                    <a class="btn primary" target="_blank" rel="noopener"
+                        href="https://www.google.com/maps/@6.5244,3.3792,12z/data=!5m1!1e1">
+                        View live traffic map ↗
+                    </a>
+
+                </p>
+            </section>
+
+            <section class="card">
+                <h2>🚌 Public transport</h2>
+                <p>Plan a route across Lagos and compare available journey options.</p>
+                <p style="margin-top:16px">
+                    <a class="btn" target="_blank" rel="noopener"
+                        href="https://www.google.com/maps/dir/?api=1&origin=Lagos&destination=Lagos&travelmode=transit">
+                        Plan a transit journey ↗
+                    </a>
+
+                </p>
+            </section>
+
+            <section class="card">
+                <h2>📍 Find a route</h2>
+                <p>Enter a destination to open route planning in Google Maps.</p>
+                <form id="routeForm" class="row" style="margin-top:14px">
+                    <input class="field" id="destination" placeholder="e.g. Ikeja City Mall" required>
+                    <button class="primary">Find route
+                    </button>
+
+                </form>
+
+            </section>
+
+            <section class="card">
+                <h2>ℹ️ Travel note</h2>
+                <p>Road closures, fares and bus availability can change quickly. Confirm route details before
+                    travelling;
+                    Lagos Live does not claim to have a proprietary live traffic feed.</p>
+
+            </section>
+
+        </div>
+
+        <!-- Additional transport tools. Existing sidebar, cards, settings sync and route form are preserved. -->
+        <section class="transport-extra" aria-labelledby="journey-tools-title">
+            <div class="section-heading">
+                <div>
+                    <h2 id="journey-tools-title">Plan your journey</h2>
+                    <p>Compare journey options and open route directions without leaving Lagos Live.</p>
+                </div>
+                <span class="tag">Route planning</span>
+            </div>
+            <div class="tool-grid">
+                <section class="tool-card">
+                    <h2>🧭 Route planner</h2>
+                    <p>Enter your starting point and destination. Directions open in Google Maps.</p>
+                    <form id="detailedRouteForm" class="form-stack">
+                        <label>Starting point
+                            <input class="field" id="routeOrigin" placeholder="e.g. Yaba, Lagos" required>
+                        </label>
+                        <label>Destination
+                            <input class="field" id="routeDestination" placeholder="e.g. CMS, Lagos Island" required>
+                        </label>
+                        <label>Travel mode
+                            <select class="field" id="routeMode">
+                                <option value="transit">Public transport</option>
+                                <option value="driving">Driving</option>
+                                <option value="walking">Walking</option>
+                                <option value="bicycling">Cycling</option>
+                            </select>
+                        </label>
+                        <div class="row">
+                            <button class="primary" type="submit">Get directions ↗</button>
+                            <button type="button" id="saveRouteBtn">Save route</button>
+                        </div>
+                    </form>
+                    <div id="routeMessage" class="result-panel" hidden aria-live="polite"></div>
+                </section>
+
+                <section class="tool-card">
+                    <h2>💳 Fare planning guide</h2>
+                    <p>Use this as a budgeting aid. These are broad planning ranges, not live or official fares.</p>
+                    <form id="fareForm" class="form-stack">
+                        <label>Transport type
+                            <select class="field" id="fareMode">
+                                <option value="danfo">Danfo / local bus</option>
+                                <option value="brt">BRT bus</option>
+                                <option value="rail">Lagos rail</option>
+                                <option value="ferry">Ferry</option>
+                                <option value="ride">Ride-hailing / taxi</option>
+                            </select>
+                        </label>
+                        <label>Journey length
+                            <select class="field" id="fareDistance">
+                                <option value="short">Short trip</option>
+                                <option value="medium">Medium trip</option>
+                                <option value="long">Long trip</option>
+                            </select>
+                        </label>
+                        <button class="primary" type="submit">Show planning range</button>
+                    </form>
+                    <div id="fareResult" class="result-panel" aria-live="polite">Choose a transport type and journey length to see an indicative range.</div>
+                    <p class="status-note">Confirm current fares with the operator before travelling. Prices can change.</p>
+                </section>
+
+                <section class="tool-card">
+                    <h2>📍 Find transport nearby</h2>
+                    <p>Search for stations, terminals, bus stops, ferry points or motor parks in a chosen area.</p>
+                    <form id="stationForm" class="form-stack">
+                        <label>What are you looking for?
+                            <select class="field" id="stationType">
+                                <option value="bus stops and BRT terminals">Bus stops and BRT terminals</option>
+                                <option value="Lagos train stations">Train stations</option>
+                                <option value="ferry terminals">Ferry terminals</option>
+                                <option value="motor parks">Motor parks</option>
+                            </select>
+                        </label>
+                        <label>Area
+                            <input class="field" id="stationArea" placeholder="e.g. Ikeja, Lagos" required>
+                        </label>
+                        <button class="primary" type="submit">Search stations ↗</button>
+                    </form>
+                </section>
+
+                <section class="tool-card">
+                    <h2>❤️ Saved routes</h2>
+                    <p>Save regular journeys on this device for quick access later.</p>
+                    <div id="savedRoutesList"><p class="muted">No saved routes yet. Plan a journey and select “Save route”.</p></div>
+                    <p class="status-note">Saved routes are stored in this browser only; they are not synced to an account.</p>
+                </section>
+            </div>
+        </section>
+
+        <section class="transport-extra" aria-labelledby="transport-directory-title">
+            <div class="section-heading">
+                <div>
+                    <h2 id="transport-directory-title">Transport directory</h2>
+                    <p>Choose a transport option to find relevant services and information.</p>
+                </div>
+            </div>
+            <div class="tool-card">
+                <div class="transport-list">
+                    <article class="transport-option"><strong>🚌 Danfo & local buses</strong><p>Common local routes across neighbourhoods. Routes and fares vary by operator.</p><a class="btn small-btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/bus+stops+in+Lagos/">Find bus stops ↗</a></article>
+                    <article class="transport-option"><strong>🚍 BRT buses</strong><p>Bus rapid transit services and terminals. Check current service information before travel.</p><a class="btn small-btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/BRT+terminals+Lagos/">Find BRT terminals ↗</a></article>
+                    <article class="transport-option"><strong>🚆 Lagos rail</strong><p>Check rail stations and plan connections to your destination.</p><a class="btn small-btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/Lagos+train+stations/">Find rail stations ↗</a></article>
+                    <article class="transport-option"><strong>⛴️ Ferries</strong><p>Water transport may be useful for some routes. Verify schedules and operating status.</p><a class="btn small-btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/ferry+terminals+Lagos/">Find ferry terminals ↗</a></article>
+                    <article class="transport-option"><strong>🚕 Taxi & ride-hailing</strong><p>Compare available options in your own ride-hailing app before booking.</p><a class="btn small-btn" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=Lagos%2C%20Nigeria&destination=Lagos%2C%20Nigeria&travelmode=driving">Plan a car journey ↗</a></article>
+                </div>
+            </div>
+        </section>
+
+        <section class="transport-extra" aria-labelledby="travel-alerts-title">
+            <div class="section-heading">
+                <div>
+                    <h2 id="travel-alerts-title">Travel alerts & community reports</h2>
+                    <p>Share a local observation. Reports submitted here are saved on this device as a demo, not broadcast to other users.</p>
+                </div>
+            </div>
+            <div class="tool-grid">
+                <section class="tool-card">
+                    <h2>📣 Submit a report</h2>
+                    <form id="reportForm" class="form-stack">
+                        <label>Report type
+                            <select class="field" id="reportType">
+                                <option>Heavy traffic</option><option>Road closure</option><option>Transport delay</option><option>Fare change</option><option>Station or terminal issue</option>
+                            </select>
+                        </label>
+                        <label>Location
+                            <input class="field" id="reportLocation" placeholder="e.g. Third Mainland Bridge" required>
+                        </label>
+                        <label>Details
+                            <textarea class="field" id="reportDetails" rows="3" placeholder="Describe what you observed. Avoid sharing personal information." required></textarea>
+                        </label>
+                        <button class="primary" type="submit">Save report</button>
+                    </form>
+                    <div id="reportMessage" class="result-panel" hidden aria-live="polite"></div>
+                </section>
+                <section class="tool-card">
+                    <h2>ℹ️ Before you travel</h2>
+                    <div class="alert-item"><strong>Check the route</strong><p>Review current directions and road conditions before departure.</p></div>
+                    <div class="alert-item"><strong>Confirm fares and schedules</strong><p>Fares, service times and availability may change. Confirm with the transport operator.</p></div>
+                    <div class="alert-item"><strong>Verify reports</strong><p>Community observations can be incomplete or outdated. Confirm important information independently.</p></div>
+                    <p class="status-note">Lagos Live does not currently provide its own verified live traffic feed or official fare database.</p>
+                </section>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        (function () {
+            const defaults = {
+                theme: "dark",
+                largeText: false,
+                compactMode: false,
+                highContrast: false,
+                reduceMotion: false
+            };
+
+            function settings() {
+                try {
+                    return {
+                        ...defaults,
+                        ...JSON.parse(localStorage
+                            .getItem("lagosLiveSettings") || "{}")
+                    }
+                }
+                catch (e) { return defaults }
+            }
+
+            function apply() {
+                let s = settings();
+                document.body.classList
+                    .remove("light-theme",
+                        "large-text",
+                        "compact",
+                        "high-contrast",
+                        "reduce-motion");
+
+                let light = s.theme === "light" || (s.theme === "system" && matchMedia(
+                    "(prefers-color-scheme: light)").matches);
+                if (light) document.body.classList
+                    .add("light-theme");
+                if (s.largeText) document.body.classList
+                    .add("large-text");
+                if (s.compactMode) document.body.classList
+                    .add("compact");
+                if (s.highContrast) document.body.classList
+                    .add("high-contrast");
+                if (s.reduceMotion) document.body.classList
+                    .add("reduce-motion")
+            }
+
+            function tick() {
+
+                let now = new Date(),
+                    h = +new Intl.DateTimeFormat("en-GB",
+                        { timeZone: "Africa/Lagos", hour: "2-digit", hourCycle: "h23" })
+                        .format(now); document
+                            .getElementById("greeting")
+                            .textContent = (h >= 5 && h < 12 ? "Good morning"
+                                : h >= 12 && h < 17 ? "Good afternoon"
+                                    : h >= 17 && h < 21 ? "Good evening" : "Good night") + " 👋";
+                document.getElementById("clock").textContent = new
+                    Intl.DateTimeFormat("en-NG", {
+                        timeZone: "Africa/Lagos",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        second: "2-digit",
+                        hour12: true
+                    })
+                    .format(now)
+            } apply(); tick();
+            setInterval(tick, 1000);
+            addEventListener("storage", e => { if (!e.key || e.key === "lagosLiveSettings") apply() });
+            addEventListener("focus", apply)
+        })();
+
+    </script>
+
+    <script>
+
+        document.getElementById("routeForm")
+            .addEventListener("submit", e => {
+                e.preventDefault();
+
+                let d = document.getElementById("destination").value.trim();
+                if (d) window.open("https://www.google.com/maps/dir/?api=1&origin=Lagos%2C%20Nigeria&destination=" + encodeURIComponent(d) + "&travelmode=driving", "_blank", "noopener")
+            });
+    </script>
+
+
+
+    <script>
+        (function () {
+            const $ = id => document.getElementById(id);
+            const safeRead = (key, fallback) => {
+                try { const value = JSON.parse(localStorage.getItem(key) || 'null'); return value ?? fallback; }
+                catch (_) { return fallback; }
+            };
+            const safeWrite = (key, value) => {
+                try { localStorage.setItem(key, JSON.stringify(value)); return true; }
+                catch (_) { return false; }
+            };
+            const mapsUrl = (origin, destination, mode) => 'https://www.google.com/maps/dir/?api=1&origin=' + encodeURIComponent(origin) + '&destination=' + encodeURIComponent(destination) + '&travelmode=' + encodeURIComponent(mode);
+            let lastRoute = null;
+
+            $('detailedRouteForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+                const origin = $('routeOrigin').value.trim();
+                const destination = $('routeDestination').value.trim();
+                const mode = $('routeMode').value;
+                if (!origin || !destination) return;
+                lastRoute = { origin, destination, mode };
+                $('routeMessage').hidden = false;
+                $('routeMessage').textContent = 'Opening directions for ' + origin + ' to ' + destination + '. Travel time and route availability are provided by Google Maps.';
+                window.open(mapsUrl(origin, destination, mode), '_blank', 'noopener');
+            });
+
+            $('saveRouteBtn').addEventListener('click', function () {
+                const origin = $('routeOrigin').value.trim();
+                const destination = $('routeDestination').value.trim();
+                const mode = $('routeMode').value;
+                if (!origin || !destination) {
+                    $('routeMessage').hidden = false;
+                    $('routeMessage').textContent = 'Enter both a starting point and destination before saving.';
+                    return;
+                }
+                const routes = safeRead('lagosLiveSavedTransportRoutes', []);
+                const route = { origin, destination, mode };
+                if (!routes.some(r => r.origin === origin && r.destination === destination && r.mode === mode)) routes.unshift(route);
+                if (!safeWrite('lagosLiveSavedTransportRoutes', routes.slice(0, 12))) {
+                    $('routeMessage').hidden = false; $('routeMessage').textContent = 'This browser could not save the route. Check your storage settings.'; return;
+                }
+                lastRoute = route; renderSavedRoutes();
+                $('routeMessage').hidden = false; $('routeMessage').textContent = 'Route saved on this device.';
+            });
+
+            function renderSavedRoutes() {
+                const container = $('savedRoutesList');
+                const routes = safeRead('lagosLiveSavedTransportRoutes', []);
+                container.replaceChildren();
+                if (!routes.length) { const p = document.createElement('p'); p.className = 'muted'; p.textContent = 'No saved routes yet. Plan a journey and select “Save route”.'; container.appendChild(p); return; }
+                routes.forEach((route, index) => {
+                    const row = document.createElement('div'); row.className = 'saved-route';
+                    const label = document.createElement('span'); label.textContent = route.origin + ' → ' + route.destination;
+                    const actions = document.createElement('div'); actions.className = 'row';
+                    const open = document.createElement('button'); open.type = 'button'; open.className = 'small-btn'; open.textContent = 'Open';
+                    open.addEventListener('click', () => window.open(mapsUrl(route.origin, route.destination, route.mode || 'transit'), '_blank', 'noopener'));
+                    const remove = document.createElement('button'); remove.type = 'button'; remove.className = 'small-btn'; remove.textContent = 'Remove';
+                    remove.addEventListener('click', () => { const updated = safeRead('lagosLiveSavedTransportRoutes', []); updated.splice(index, 1); safeWrite('lagosLiveSavedTransportRoutes', updated); renderSavedRoutes(); });
+                    actions.append(open, remove); row.append(label, actions); container.appendChild(row);
+                });
+            }
+
+            const fareRanges = {
+                danfo: { short: '₦300–₦800', medium: '₦500–₦1,500', long: '₦800–₦2,500' },
+                brt: { short: 'Check current operator fare', medium: 'Check current operator fare', long: 'Check current operator fare' },
+                rail: { short: 'Check current rail fare', medium: 'Check current rail fare', long: 'Check current rail fare' },
+                ferry: { short: 'Check current ferry fare', medium: 'Check current ferry fare', long: 'Check current ferry fare' },
+                ride: { short: 'Get a live quote in your ride app', medium: 'Get a live quote in your ride app', long: 'Get a live quote in your ride app' }
+            };
+            $('fareForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+                const mode = $('fareMode').value, distance = $('fareDistance').value;
+                const result = fareRanges[mode][distance];
+                $('fareResult').replaceChildren();
+                const strong = document.createElement('strong'); strong.textContent = result;
+                const p = document.createElement('p'); p.textContent = mode === 'danfo' ? 'Very rough budgeting range only; actual fares depend on route, operator and current conditions.' : 'No estimate is provided here because a reliable current fare table is not connected.';
+                $('fareResult').append(strong, p);
+            });
+
+            $('stationForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+                const area = $('stationArea').value.trim();
+                if (!area) return;
+                const query = $('stationType').value + ' in ' + area + ', Lagos, Nigeria';
+                window.open('https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(query), '_blank', 'noopener');
+            });
+
+            $('reportForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+                const report = { type: $('reportType').value, location: $('reportLocation').value.trim(), details: $('reportDetails').value.trim(), createdAt: new Date().toISOString() };
+                const reports = safeRead('lagosLiveTransportReportsDemo', []);
+                reports.unshift(report);
+                if (!safeWrite('lagosLiveTransportReportsDemo', reports.slice(0, 20))) {
+                    $('reportMessage').hidden = false; $('reportMessage').textContent = 'Could not save the report in this browser.'; return;
+                }
+                $('reportMessage').hidden = false;
+                $('reportMessage').textContent = 'Report saved locally for this demo. It has not been sent to other users or verified.';
+                $('reportForm').reset();
+            });
+            renderSavedRoutes();
+        })();
+    </script>
+
+</body>
+
+</html>

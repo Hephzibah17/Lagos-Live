@@ -1,0 +1,640 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Lagos Live | Saved Places</title>
+    <link rel="icon" href="lagos live logo.png">
+    <style>
+        :root {
+            --bg: #070d14;
+            --sidebar: #0b121b;
+            --card: #101923;
+            --card-hover: #14222f;
+            --border: #1d2b38;
+
+            --text: #ffffff;
+            --muted: #718092;
+
+            --blue: #00bfff;
+            --blue-dark: #0077ff;
+
+            --green: #20d99b;
+            --yellow: #ffc857;
+            --red: #ff6078;
+
+            --shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            font: 16px/1.5 Arial, Helvetica, sans-serif;
+            min-height: 100vh
+        }
+
+        body.light-theme {
+            --bg: #f2f7fb;
+            --sidebar: #fff;
+            --card: #fff;
+            --text: #102a43;
+            --muted: #65788a;
+            --border: #dce6ee;
+            --shadow: 0 10px 30px #14325014
+        }
+
+        body.high-contrast {
+            --text: #fff;
+            --muted: #e8edf2;
+            --border: #8798a8
+        }
+
+        body.light-theme.high-contrast {
+            --text: #071827;
+            --muted: #263c4e;
+            --border: #526779
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none
+        }
+
+        .layout {
+            min-height: 100vh
+        }
+
+        /* =========================================================
+           LIGHT THEME
+           ========================================================= */
+
+        body.light-theme {
+            --bg: #f4f8fb;
+            --sidebar: #ffffff;
+            --card: #ffffff;
+            --card-hover: #f1f7fb;
+            --border: #dce6ee;
+
+            --text: #102a43;
+            --muted: #65788a;
+
+            --shadow: 0 10px 30px rgba(20, 50, 80, 0.08);
+        }
+
+        body.light-theme .sidebar {
+            border-right: 1px solid var(--border);
+            box-shadow: 4px 0 20px rgba(249, 248, 248, 0.03);
+            background-color: #ffffff;
+        }
+
+        body.light-theme .nav-item:hover {
+            background: #eef7fc;
+        }
+
+        body.light-theme .nav-item.active {
+            background: rgba(0, 191, 255, 0.12);
+        }
+
+        body.light-theme .search-box {
+            background: #ffffff;
+            border-color: var(--border);
+        }
+
+        body.light-theme .notification-btn {
+            background: #ffffff;
+            border-color: var(--border);
+        }
+
+        body.light-theme .profile-btn {
+            background: #184a78;
+            border-color: var(--border);
+        }
+
+        body.light-theme .weather-card {
+            box-shadow: var(--shadow);
+        }
+
+        body.light-theme .stat-card,
+        body.light-theme .event-card,
+        body.light-theme .quick-card {
+            box-shadow: var(--shadow);
+        }
+
+        body.light-theme .weather-card {
+            background:
+                radial-gradient(circle at 80% 20%,
+                    rgba(0, 191, 255, 0.18),
+                    transparent 35%),
+                linear-gradient(135deg,
+                    #ffffff,
+                    #edf8fc);
+            border-color: #cfe5ef;
+        }
+
+        body.light-theme .event-image {
+            background: #e9f3f8;
+        }
+
+        body.light-theme .status-icon {
+            background: #f2f8fb;
+        }
+
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+
+            width: 245px;
+
+            display: flex;
+            flex-direction: column;
+
+            background: var(--sidebar);
+            border-right: 1px solid var(--border);
+
+            padding: 22px 15px;
+
+            z-index: 1000;
+
+            transition:
+                background-color 0.25s ease,
+                border-color 0.25s ease,
+                transform 0.25s ease;
+        }
+
+        .sidebar {
+
+            position: fixed;
+
+            left: 0;
+
+            top: 0;
+
+            width: 245px;
+
+            height: 100vh;
+
+            background: #0b131d;
+
+            border-right: 1px solid #1b2936;
+
+            padding: 25px 17px;
+
+            z-index: 1000;
+
+        }
+
+            .logo-area {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            height: 76px;
+
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            width: 185px;
+            max-width: 100%;
+            max-height: 68px;
+
+            object-fit: contain;
+            display: block;
+        }
+
+        .nav-section-title {
+            padding: 0 12px;
+            margin: 8px 0 10px;
+
+            color: var(--muted);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .nav-title {
+
+            font-size: 11px;
+
+            color: #647384;
+
+            margin: 15px 15px 10px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1px;
+        }
+
+        .nav {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .nav-item {
+            position: relative;
+
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            width: 100%;
+            min-height: 46px;
+
+            padding: 0 13px;
+
+            border-radius: 11px;
+
+            color: var(--muted);
+
+            font-size: 14px;
+            font-weight: 600;
+
+            transition:
+                background 0.2s ease,
+                color 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .nav-item:hover {
+            color: var(--text);
+            background: var(--card-hover);
+            transform: translateX(2px);
+        }
+
+        .nav-item.active {
+            color: var(--blue);
+            background: rgba(0, 191, 255, 0.09);
+        }
+
+        .nav-item.active::before {
+            content: "";
+
+            position: absolute;
+            left: -15px;
+            top: 8px;
+            bottom: 8px;
+
+            width: 3px;
+
+            background: var(--blue);
+            border-radius: 0 4px 4px 0;
+
+            box-shadow: 0 0 12px rgba(0, 191, 255, 0.6);
+        }
+
+        .nav-icon {
+            width: 20px;
+            text-align: center;
+            font-size: 17px;
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+        }
+
+        .sidebar-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            padding: 12px;
+
+            margin-top: 15px;
+
+            border-top: 1px solid var(--border);
+        }
+
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background:
+                linear-gradient(135deg,
+                    var(--blue),
+                    var(--blue-dark));
+
+            color: white;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .user-info {
+            min-width: 0;
+        }
+
+        .user-name {
+            font-size: 13px;
+            font-weight: 700;
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .user-status {
+            margin-top: 2px;
+
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+
+        main {
+            margin-left: 230px;
+            padding: 28px clamp(18px, 4vw, 52px);
+            max-width: 1400px
+        }
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 28px
+        }
+
+        .clock {
+            padding: 10px 14px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            text-align: right
+        }
+
+        .clock small {
+            display: block;
+            color: var(--muted)
+        }
+
+        h1 {
+            font-size: clamp(26px, 3vw, 36px);
+            margin: 0 0 8px
+        }
+
+        h2 {
+            font-size: 20px;
+            margin: 0 0 10px
+        }
+
+        p {
+            color: var(--muted)
+        }
+
+        .sub {
+            margin: 0 0 24px
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+            gap: 16px
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            min-width: 0
+        }
+
+        .card p {
+            margin: 6px 0 0
+        }
+
+        .btn,
+        button,
+        input,
+        select {
+            font: inherit
+        }
+
+        .btn,
+        button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border);
+            background: var(--card);
+            color: var(--text);
+            border-radius: 10px;
+            padding: 10px 13px;
+            cursor: pointer
+        }
+
+        .btn.primary,
+        button.primary {
+            background: var(--accent);
+            color: #04202b;
+            border-color: transparent;
+            font-weight: 700
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center
+        }
+
+        .field {
+            width: 100%;
+            padding: 11px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--text)
+        }
+
+        .muted {
+            color: var(--muted)
+        }
+
+        .notice {
+            border-left: 4px solid #f2b544;
+            padding: 12px 14px;
+            background: var(--card);
+            border-radius: 8px;
+            color: var(--muted)
+        }
+
+        .large-text {
+            font-size: 18px
+        }
+
+        .compact .card {
+            padding: 14px
+        }
+
+        .reduce-motion * {
+            animation: none !important;
+            transition: none !important
+        }
+
+        @media(max-width:760px) {
+            .sidebar {
+                position: static;
+                width: auto;
+                height: auto;
+                padding: 12px
+            }
+
+            .logo {
+                margin: 0 auto 10px;
+                max-height: 48px
+            }
+
+            .nav {
+                display: flex;
+                overflow-x: auto
+            }
+
+            .nav a {
+                white-space: nowrap;
+                padding: 8px 10px
+            }
+
+            main {
+                margin: 0;
+                padding: 20px 14px
+            }
+
+            .top {
+                align-items: flex-start;
+                flex-direction: column
+            }
+
+            .clock {
+                text-align: left
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar" id="sidebar">
+
+            <div class="logo-container">
+
+
+                <a href="dashboard.html">
+
+                    <img src="lagos live logo.png" alt="Lagos Live" class="logo">
+
+                </a>
+
+            </div>
+
+
+            <nav>
+                <div class="nav-title">Main</div>
+                <a href="dashboard.html" class="nav-item ">
+                    <span class="nav-icon">▦</span>
+                    Dashboard
+                </a>
+
+                <a href="explore.html" class="nav-item">
+                    <span class="nav-icon">🗺️</span>
+                    Explore
+                </a>
+
+                <a href="events.html" class="nav-item">
+                    <span class="nav-icon">🎉</span>
+                    Events
+                </a>
+
+                <a href="transport.html" class="nav-item">
+                    <span class="nav-icon">🚦</span>
+                    Transport
+                </a>
+
+                <a href="weather.html" class="nav-item">
+                    <span class="nav-icon">☁️</span>
+                    Weather
+                </a>
+
+
+                <div class="nav-title">Services</div>
+
+
+                <a href="emergency.html" class="nav-item">
+                    <span class="nav-icon">🚨</span>
+                    Emergency
+                </a>
+
+                <a href="saved.html" class="nav-item active">
+                    <span class="nav-icon">❤️</span>
+                    Saved Places
+                </a>
+
+                <a href="settings.html" class="nav-item">
+                    <span class="nav-icon">⚙️</span>
+                    Settings
+                </a>
+
+            </nav>
+
+
+            <div class="sidebar-bottom">
+                <a href="index.html">
+
+                    <button class="nav-item logout-btn" id="logoutBtn">
+
+                        <span class="nav-icon">
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                        </span>
+
+                        Log Out
+
+                    </button>
+                </a>
+            </div>
+
+
+
+        </aside>
+    <main>
+        <header class="top">
+            <div>
+                <h1>Saved Places</h1>
+                <p class="sub">Keep a personal list of places you want to revisit.</p>
+            </div>
+            <div class="clock"><strong id="greeting">Good day 👋</strong><span id="clock">Loading Lagos
+                    time…</span><small>Africa/Lagos · WAT</small></div>
+        </header>
+        <div class="card" style="margin-bottom:18px">
+            <h2>❤️ Your saved places</h2>
+            <p>Save places from Explore using the same browser and device. Your list is stored locally in this browser.
+            </p>
+            <form id="saveForm" class="row" style="margin-top:14px"><input class="field" id="placeName"
+                    placeholder="Place name" required><input class="field" id="placeNote"
+                    placeholder="Optional note"><button class="primary">Save place</button></form>
+        </div>
+        <div id="savedList" class="grid"></div>
+        <p id="emptySaved" class="muted">No saved places yet. Add a place above to start your list.</p>
+    </main>
+    <script>
+        (function () { const defaults = { theme: "dark", largeText: false, compactMode: false, highContrast: false, reduceMotion: false }; function settings() { try { return { ...defaults, ...JSON.parse(localStorage.getItem("lagosLiveSettings") || "{}") } } catch (e) { return defaults } } function apply() { let s = settings(); document.body.classList.remove("light-theme", "large-text", "compact", "high-contrast", "reduce-motion"); let light = s.theme === "light" || (s.theme === "system" && matchMedia("(prefers-color-scheme: light)").matches); if (light) document.body.classList.add("light-theme"); if (s.largeText) document.body.classList.add("large-text"); if (s.compactMode) document.body.classList.add("compact"); if (s.highContrast) document.body.classList.add("high-contrast"); if (s.reduceMotion) document.body.classList.add("reduce-motion") } function tick() { let now = new Date(), h = +new Intl.DateTimeFormat("en-GB", { timeZone: "Africa/Lagos", hour: "2-digit", hourCycle: "h23" }).format(now); document.getElementById("greeting").textContent = (h >= 5 && h < 12 ? "Good morning" : h >= 12 && h < 17 ? "Good afternoon" : h >= 17 && h < 21 ? "Good evening" : "Good night") + " 👋"; document.getElementById("clock").textContent = new Intl.DateTimeFormat("en-NG", { timeZone: "Africa/Lagos", hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: true }).format(now) } apply(); tick(); setInterval(tick, 1000); addEventListener("storage", e => { if (!e.key || e.key === "lagosLiveSettings") apply() }); addEventListener("focus", apply) })();
+    </script>
+    <script>const KEY = "lagosLiveSavedPlaces"; function getSaved() { try { return JSON.parse(localStorage.getItem(KEY) || "[]") } catch (e) { return [] } } function renderSaved() { let items = getSaved(), list = document.getElementById("savedList"), empty = document.getElementById("emptySaved"); list.innerHTML = ""; empty.hidden = items.length > 0; items.forEach((p, i) => { let c = document.createElement("article"); c.className = "card"; let h = document.createElement("h2"); h.textContent = "📍 " + p.name; c.appendChild(h); if (p.note) { let n = document.createElement("p"); n.textContent = p.note; c.appendChild(n) } let row = document.createElement("div"); row.className = "row"; row.style.marginTop = "14px"; let map = document.createElement("a"); map.className = "btn"; map.target = "_blank"; map.rel = "noopener"; map.href = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(p.name + ", Lagos, Nigeria"); map.textContent = "Open map ↗"; let del = document.createElement("button"); del.textContent = "Remove"; del.addEventListener("click", () => { let a = getSaved(); a.splice(i, 1); localStorage.setItem(KEY, JSON.stringify(a)); renderSaved() }); row.append(map, del); c.appendChild(row); list.appendChild(c) }) } document.getElementById("saveForm").addEventListener("submit", e => { e.preventDefault(); let name = document.getElementById("placeName").value.trim(), note = document.getElementById("placeNote").value.trim(); if (!name) return; let a = getSaved(); a.unshift({ name, note, createdAt: Date.now() }); localStorage.setItem(KEY, JSON.stringify(a)); e.target.reset(); renderSaved() }); addEventListener("storage", e => { if (e.key === KEY) renderSaved() }); renderSaved();</script>
+</body>
+
+</html>
